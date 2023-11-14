@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, FlatList, ActivityIndicator, TextInput } from 'react-native';
-import { View } from './Themed';
 import UserProfile from './UserProfile';
 import { User } from '../interfaces/User.interface';
 import getUsers from '../service/getUsers';
 import Colors from '../constants/Colors';
 
 export default function Home({ path }: { path: string }) {
+  const [usersListWithoutFilter, setUserListWithoutFilter] = useState<User[]>([])
   const [usersList, setUsersList] = useState<User[]>([]);
-  const [filteredUsersList, setFilteredUsersList] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState<string>('')
 
   const loadMoreData = async () => {
     if (loading) return;
@@ -20,10 +19,15 @@ export default function Home({ path }: { path: string }) {
       setLoading(true);
       const response = await getUsers(page);
       if (response && response.results && response.results.length) {
-        setUsersList((prevUsersList) => [...prevUsersList, ...response.results]);
+        const newUserList = [...usersList, ...response.results]
+        setUserListWithoutFilter(newUserList)
+        
+        if (searchText.length) {
+          filterByName(newUserList)
+        } else {
+          setUsersList(newUserList);
+        }
         setPage(page + 1);
-        // Atualizar também a lista filtrada quando novos usuários são carregados
-        filterUsers(searchText, [...usersList, ...response.results]);
       } else {
         alert('Internal Server Error');
       }
@@ -38,19 +42,18 @@ export default function Home({ path }: { path: string }) {
     loadMoreData();
   }, []);
 
-  const filterUsers = (text: string, users: User[]) => {
-    const filteredUsers = users.filter(
-      (user) =>
-        user.name.first.toLowerCase().includes(text.toLowerCase()) ||
-        user.name.last.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredUsersList(filteredUsers);
-  };
+  useEffect(()=>{
+    if (searchText.length) {
+      filterByName(usersList)
+    } else {
+      setUsersList(usersListWithoutFilter)
+    }
+  },[searchText])
 
-  const handleSearch = (text: string) => {
-    setSearchText(text);
-    filterUsers(text, usersList);
-  };
+  const filterByName = (usersList: User[]) => {
+    const filteredUserList = usersList.filter(user => user.name.first.toLowerCase().includes(searchText.toLowerCase()) || user.name.last.toLowerCase().includes(searchText.toLowerCase()))
+    setUsersList(filteredUserList)
+  }
 
   const renderFooter = () => {
     return loading ? (
@@ -58,8 +61,12 @@ export default function Home({ path }: { path: string }) {
     ) : null;
   };
 
+  const handleSearch = (text: string) => {
+    setSearchText(text);
+  };
+
   return (
-    <View>
+    <>
       <TextInput
         style={styles.searchInput}
         placeholder="Search by name"
@@ -67,14 +74,14 @@ export default function Home({ path }: { path: string }) {
         value={searchText}
       />
       <FlatList
-        data={filteredUsersList}
+        data={usersList}
         keyExtractor={(user) => user.login.uuid}
-        renderItem={({ item }) => <UserProfile user={item} />}
+        renderItem={({ item }) => <UserProfile user={item}/>}
         ListFooterComponent={renderFooter}
         onEndReached={loadMoreData}
         onEndReachedThreshold={0.1}
       />
-    </View>
+    </>
   );
 }
 
