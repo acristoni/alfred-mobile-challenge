@@ -41,11 +41,12 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 300,
     marginTop: 5,
+    marginStart:10
   },
   avatar: {
     width: 50,
     height: 50,
-    borderRadius: 25, // Metade da largura/altura para torná-lo circular
+    borderRadius: 25,
     marginRight: 10,
   },
   userInfo: {
