@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 import { View } from './Themed';
 import UserProfile from './UserProfile';
@@ -23,14 +23,16 @@ export default function Home({ path }: { path: string }) {
   },[])
 
   return (
-    <View>
-      <View style={styles.getStartedContainer}>
-        {
-          usersList && usersList.length &&
-          usersList.map((user, index) => <UserProfile key={index} user={user} />)        
-        }
+    <ScrollView>
+      <View>
+        <View style={styles.getStartedContainer}>
+          {
+            usersList && usersList.length &&
+            usersList.map((user, index) => <UserProfile key={index} user={user} />)        
+          }
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
