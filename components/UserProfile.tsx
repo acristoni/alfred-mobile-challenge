@@ -15,19 +15,19 @@ const UserProfile = ({ user }: { user: User }) => {
           style={styles.name}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
-            {user.name.title}
+            {user.name.title} {user.name.first} {user.name.last}
+        </Text>
+        <Text
+          style={styles.email}
+          lightColor="rgba(0,0,0,0.8)"
+          darkColor="rgba(255,255,255,0.8)">
+            {user.email}
         </Text>
         <Text
           style={styles.name}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
-            {user.name.first}
-        </Text>
-        <Text
-          style={styles.name}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-            {user.name.last}
+            {user.location.city}
         </Text>
       </View>
     </View>
@@ -50,12 +50,15 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flex: 1,
-    
+    marginStart: 5
   },
   name: {
     fontSize: 18,
     fontWeight: 'bold',
   },
+  email: {
+    fontSize: 13,
+  }
 });
 
 export default UserProfile;
