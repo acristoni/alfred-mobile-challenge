@@ -1,10 +1,10 @@
 import { ReturnGetUsers } from "../interfaces/ReturnGetUsers.interface";
 
-export default async function getUsers(): Promise<ReturnGetUsers | null> {
+export default async function getUsers(page: number): Promise<ReturnGetUsers | null> {
     try {
         let headersList = {}
         
-        let response = await fetch("https://randomuser.me/api/?page=3&results=50", { 
+        let response = await fetch(`https://randomuser.me/api/?page=${page}&results=50`, { 
           method: "GET",
           headers: headersList
         });
