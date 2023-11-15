@@ -6,7 +6,7 @@ import Home from '../../components/Home';
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-      <Home path="app/(tabs)/index.tsx" />
+      <Home />
     </View>
   );
 }

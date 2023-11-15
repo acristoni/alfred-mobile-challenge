@@ -5,7 +5,7 @@ import { User } from '../interfaces/User.interface';
 import getUsers from '../service/getUsers';
 import Colors from '../constants/Colors';
 
-export default function Home({ path }: { path: string }) {
+export default function Home() {
   const [usersListWithoutFilter, setUserListWithoutFilter] = useState<User[]>([])
   const [usersList, setUsersList] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
