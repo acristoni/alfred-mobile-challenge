@@ -1,35 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
+import favoriteUsersList from '../store/favoriteUsersList';
+import { User } from '../interfaces/User.interface';
+import UserProfile from './UserProfile';
 
 
 export default function Favorites({ path }: { path: string }) {
+  const [usersList, setUserList] = useState<User[]>([])
+  useEffect(()=>{
+    setInterval(()=>{
+      const allFavoriteUsers = favoriteUsersList.getAll()
+      setUserList(allFavoriteUsers)
+    },1000)
+  }, [])
   return (
     <View>
-      <View style={styles.getStartedContainer}>
-        <Text
-          style={styles.getStartedText}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-            eita lasqueira velha
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
-          darkColor="rgba(255,255,255,0.05)"
-          lightColor="rgba(0,0,0,0.05)">
-          <MonoText>{path}</MonoText>
-        </View>
-
-        <Text
-          style={styles.getStartedText}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-          Change any of the text, save the file, and your app will automatically update.
-        </Text>
-      </View>
+      {
+        usersList && usersList.length ?
+        usersList.map(user => <UserProfile user={user} key={user.login.uuid} />) :
+        <Text>Você ainda não possui nenhum paciente na lista de favoritos!</Text>
+      }
     </View>
   );
 }
