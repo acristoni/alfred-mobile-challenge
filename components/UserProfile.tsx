@@ -29,15 +29,7 @@ const UserProfile = ({ user, pageFavorites = false, callBackToUpdate, updatePare
 
   const onGestureStateChange = (event: any) => {
     if (event.nativeEvent.state === State.END) {
-      if (pageFavorites) {
-        favoriteUsersList.remove(user.login.uuid)
-      } else {
-        favoriteUsersList.add(user.login.uuid, user)
-      }
-
-      if (callBackToUpdate) {
-        callBackToUpdate(!updateParentState)
-      }
+      updateUsersList()
 
       Animated.spring(animatedValue, {
         toValue: 0,
@@ -45,6 +37,18 @@ const UserProfile = ({ user, pageFavorites = false, callBackToUpdate, updatePare
       }).start();
     }
   };
+
+  function updateUsersList() {
+    if (pageFavorites) {
+      favoriteUsersList.remove(user.login.uuid)
+    } else {
+      favoriteUsersList.add(user.login.uuid, user)
+    }
+
+    if (callBackToUpdate) {
+      callBackToUpdate(!updateParentState)
+    }
+  }
 
   return (
     <View>
@@ -121,22 +125,10 @@ const UserProfile = ({ user, pageFavorites = false, callBackToUpdate, updatePare
               Full Name
           </Text>
           <Text style={styles.mainTextModal}>
-              {user.location.city} - {user.location.state}
-          </Text>
-          <Text style={styles.subTextModal}>
-              City - State
-          </Text>
-          <Text style={styles.mainTextModal}>
               {user.email}
           </Text>
           <Text style={styles.subTextModal}>
               E-mail
-          </Text>
-          <Text style={styles.mainTextModal}>
-              {user.nat}
-          </Text>
-          <Text style={styles.subTextModal}>
-              Country
           </Text>
           <Text style={styles.mainTextModal}>
               {user.gender}
@@ -145,11 +137,45 @@ const UserProfile = ({ user, pageFavorites = false, callBackToUpdate, updatePare
               Gender
           </Text>
           <Text style={styles.mainTextModal}>
+              {user.dob.date}
+          </Text>
+          <Text style={styles.subTextModal}>
+              Birthday
+          </Text>
+          <Text style={styles.mainTextModal}>
               {user.phone}
           </Text>
           <Text style={styles.subTextModal}>
               Phone Number
           </Text>
+          <Text style={styles.mainTextModal}>
+              {user.nat}
+          </Text>
+          <Text style={styles.subTextModal}>
+              Nationality
+          </Text>
+          <Text style={styles.mainTextModal}>
+              {user.location.city} - {user.location.state}
+          </Text>
+          <Text style={styles.subTextModal}>
+              Address
+          </Text>
+          <Text style={styles.mainTextModal}>
+              {user.login.uuid}
+          </Text>
+          <Text style={styles.subTextModal}>
+              ID
+          </Text>
+          <TouchableOpacity 
+            onPress={()=>{
+               updateUsersList()
+               toggleModal()
+              }
+            } 
+            style={styles.buttonAtualizar}
+          >
+            <Text style={styles.atualizaLista}>{pageFavorites ? 'Remove Favorite' : 'Favorite User'}</Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     </View>
@@ -235,12 +261,24 @@ const styles = StyleSheet.create({
   },
   mainTextModal: {
     fontWeight: '700',
-    marginTop: 15,
-    fontSize: 20
+    marginTop: 10,
+    fontSize: 13
   },
   subTextModal: {
     marginTop: 5,
     fontSize: 13
+  },
+  atualizaLista: {
+    fontSize: 15,
+    color: '#E0FBFC',
+    fontWeight: '700'
+  },
+  buttonAtualizar: {
+    marginTop: 10,
+    marginHorizontal: 'auto',
+    backgroundColor: '#293241',
+    padding: 10,
+    borderRadius: 20
   }
 });
 
