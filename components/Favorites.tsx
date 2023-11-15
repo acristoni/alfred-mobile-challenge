@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
-import { Text, View } from './Themed';
+import { Text } from './Themed';
 import favoriteUsersList from '../store/favoriteUsersList';
 import { User } from '../interfaces/User.interface';
 import UserProfile from './UserProfile';
 
 export default function Favorites() {
-  const [usersList, setUserList] = useState<User[]>([]);
+  const [usersList, setUserList] = useState<User[]>([])
+  const [update, setUpdate] = useState<boolean>(false)
 
-  useEffect(() => {
-    const allFavoriteUsers = favoriteUsersList.getAll();
-    setUserList(allFavoriteUsers);
-  }, []);
+  useEffect(()=>{
+    const list = favoriteUsersList.getAll()
+    setUserList(list)
+  },[update])
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <TouchableOpacity onPress={()=>setUpdate(!update)} style={styles.buttonAtualizar}>
+        <Text style={styles.atualizaLista}>Atualizar Lista de Favoritos</Text>
+      </TouchableOpacity>
       {usersList && usersList.length ? (
-        usersList.map((user) => <UserProfile user={user} key={user.login.uuid} />)
+        usersList.map((user) => <UserProfile 
+          user={user} 
+          key={user.login.uuid} 
+          pageFavorites
+          callBackToUpdate={setUpdate}
+          updateParentState={update}
+        />)
       ) : (
         <Text style={styles.withoutUsers}>
           Você ainda não possui nenhum paciente na lista de favoritos!
@@ -36,7 +46,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '700',
     marginHorizontal: 40,
-    marginTop: -50,
+    marginTop: 250,
     fontSize: 17,
   },
+  atualizaLista: {
+    fontSize: 15,
+    color: '#E0FBFC',
+    fontWeight: 700
+  },
+  buttonAtualizar: {
+    marginTop: 10,
+    marginHorizontal: 'auto',
+    backgroundColor: '#293241',
+    padding: 10,
+    borderRadius: 20
+  }
 });

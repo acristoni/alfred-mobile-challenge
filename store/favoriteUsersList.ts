@@ -1,31 +1,42 @@
-import { User } from "../interfaces/User.interface"
+import { User } from "../interfaces/User.interface";
 
-class FaviriteUsers {
-    favoriteUsersList: User[] = []
+export class FavoriteUsers {
+    private static instance: FavoriteUsers | null = null;
+    private favoriteUsersList: User[] = [];
+
+    private constructor() {}
+
+    static getInstance(): FavoriteUsers {
+        if (!FavoriteUsers.instance) {
+            FavoriteUsers.instance = new FavoriteUsers();
+        }
+        return FavoriteUsers.instance;
+    }
 
     add(userUuid: string, user: User) {
-        const indexUserAlreadySalved = this.favoriteUsersList.findIndex(user => user.login.uuid === userUuid)
+        const indexUserAlreadySaved = this.favoriteUsersList.findIndex(user => user.login.uuid === userUuid);
 
-        if (indexUserAlreadySalved !== -1) {
-            this.favoriteUsersList[indexUserAlreadySalved] = user
-            return
+        if (indexUserAlreadySaved !== -1) {
+            this.favoriteUsersList[indexUserAlreadySaved] = user;
+            return;
         }
-        
-        
-        this.favoriteUsersList.push(user)
-        console.log(this.favoriteUsersList.length)
-        return 
+
+        this.favoriteUsersList.push(user);
+        console.log(this.favoriteUsersList.length);
+        return;
     }
 
     remove(userUuid: string) {
-        // return this.favoriteUsersList.get(userUuid)
+        const arrayWithoutUser = this.favoriteUsersList.filter(user => user.login.uuid !== userUuid)
+        this.favoriteUsersList = [...arrayWithoutUser]
+        return;
     }
 
     getAll() {
-        return this.favoriteUsersList
+        return this.favoriteUsersList;
     }
 }
 
-const favoriteUsersList = new FaviriteUsers()
+const favoriteUsersList = FavoriteUsers.getInstance();
 
 export default favoriteUsersList;
