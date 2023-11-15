@@ -22,7 +22,6 @@ export class FavoriteUsers {
         }
 
         this.favoriteUsersList.push(user);
-        console.log(this.favoriteUsersList.length);
         return;
     }
 

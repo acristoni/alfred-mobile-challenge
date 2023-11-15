@@ -18,7 +18,7 @@ export default function Favorites() {
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <TouchableOpacity onPress={()=>setUpdate(!update)} style={styles.buttonAtualizar}>
-        <Text style={styles.atualizaLista}>Atualizar Lista de Favoritos</Text>
+        <Text style={styles.atualizaLista}>Update Favorites List</Text>
       </TouchableOpacity>
       {usersList && usersList.length ? (
         usersList.map((user) => <UserProfile 
@@ -30,7 +30,7 @@ export default function Favorites() {
         />)
       ) : (
         <Text style={styles.withoutUsers}>
-          Você ainda não possui nenhum paciente na lista de favoritos!
+          You don't have any patients on your favorites list yet!
         </Text>
       )}
     </ScrollView>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   atualizaLista: {
     fontSize: 15,
     color: '#E0FBFC',
-    fontWeight: 700
+    fontWeight: '700'
   },
   buttonAtualizar: {
     marginTop: 10,
