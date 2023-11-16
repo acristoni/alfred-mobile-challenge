@@ -41,20 +41,23 @@ const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1,
     justifyContent: 'flex-start',
+    alignItems: 'center'
   },
   withoutUsers: {
     textAlign: 'center',
     fontWeight: '700',
-    marginHorizontal: 40,
+    marginHorizontal: 20,
     marginTop: 250,
     fontSize: 17,
   },
   atualizaLista: {
     fontSize: 15,
     color: '#E0FBFC',
-    fontWeight: '700'
+    fontWeight: '700',
+    textAlign: 'center'
   },
   buttonAtualizar: {
+    width: 200,
     marginTop: 10,
     marginHorizontal: 'auto',
     backgroundColor: '#293241',
