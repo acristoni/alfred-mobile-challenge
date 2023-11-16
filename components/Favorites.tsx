@@ -40,6 +40,7 @@ export default function Favorites() {
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1,
+    paddingEnd: 20,
     justifyContent: 'flex-start',
     alignItems: 'center'
   },

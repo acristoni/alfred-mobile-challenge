@@ -29,7 +29,9 @@ const UserProfile = ({ user, pageFavorites = false, callBackToUpdate, updatePare
 
   const onGestureStateChange = (event: any) => {
     if (event.nativeEvent.state === State.END) {
-      updateUsersList()
+      if (event.nativeEvent.translationX > 50) {
+        updateUsersList()
+      }
 
       Animated.spring(animatedValue, {
         toValue: 0,

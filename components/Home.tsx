@@ -80,6 +80,7 @@ export default function Home() {
         ListFooterComponent={renderFooter}
         onEndReached={loadMoreData}
         onEndReachedThreshold={0.1}
+        style={styles.flatList}
       />
     </>
   );
@@ -96,4 +97,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
   },
+  flatList: {
+    paddingEnd: 20
+  }
 });
